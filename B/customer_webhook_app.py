@@ -6,19 +6,19 @@ import socket
 import logging
 import requests
 import netifaces
-from pyp2p.net import *
-from special_beta import auth as digest
 
 import requests
+import hashlib
 
+def hashing(ctext):
+    obj = hashlib.sha256()
+    obj.update(bytes(ctext, 'utf-8'))
+    return obj.hexdigest()
 # ===================== CONFIG =====================
-WEBHOOK_URL = "https://your-webhook-endpoint.com/customer-event"
-WEBHOOK_API_KEY = "Sup3rS3cur3ApiKey"
-ALICE_PORT = 44444
 
 # ===================== LOGGING =====================
 logging.basicConfig(
-    filename="customer_p2p.log",
+    filename="customer_nnn.log",
     level=logging.INFO,
     format="%(asctime)s %(levelname)s: %(message)s"
 )
@@ -46,15 +46,9 @@ for iface in netifaces.interfaces():
 
 # ===================== AUTH =====================
 IP_USER = str("customer_" + IP)
-auth_token = digest.encode(IP_USER, "Sup3rS3cur3P4ssw0rd")
+auth_token = hashing(IP_USER + "Sup3rS3cur3P4ssw0rd")
 print(f"[CUSTOMER] Auth Token: {auth_token}")
 log_event("auth_generated", {"user": IP_USER, "token": auth_token})
-
-# ===================== P2P NODE =====================
-alice = Net(passive_bind=IP, passive_port=ALICE_PORT, interface=INTE, node_type="passive", debug=1)
-alice.start()
-alice.bootstrap()
-alice.advertise()
 
 def send_webhook(event_name, payload):
     try:
@@ -78,8 +72,6 @@ def alice_loop():
                 print(f"[CUSTOMER] Hello")
                 send_webhook("customer_event", {"from": con.addr[0], "message": reply})
         time.sleep(1)
-
-threading.Thread(target=alice_loop, daemon=True).start()
 
 # ===================== TKINTER UI =====================
 #def on_click():
