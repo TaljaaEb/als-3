@@ -17,7 +17,7 @@ def hashing(ctext):
 
 # ===================== LOGGING =====================
 logging.basicConfig(
-    filename="merchant_p2p.log",
+    filename="merchant_nnn.log",
     level=logging.INFO,
     format="%(asctime)s %(levelname)s: %(message)s"
 )
