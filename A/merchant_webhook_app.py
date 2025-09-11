@@ -6,14 +6,14 @@ import socket
 import logging
 import requests
 import netifaces
-from pyp2p.net import *
-from special_beta import auth as digest
 import requests
+import hashlib
 
+def hashing(ctext):
+    obj = hashlib.sha256()
+    obj.update(bytes(ctext, 'utf-8'))
+    return obj.hexdigest()
 # ===================== CONFIG =====================
-WEBHOOK_URL = "https://your-webhook-endpoint.com/merchant-event"
-WEBHOOK_API_KEY = "Sup3rS3cur3ApiKey"
-BOB_PORT = 44445
 
 # ===================== LOGGING =====================
 logging.basicConfig(
@@ -45,15 +45,9 @@ for iface in netifaces.interfaces():
 
 # ===================== AUTH =====================
 IP_USER = str("merchant_" + IP)
-auth_token = digest.encode(IP_USER, "Sup3rS3cur3P4ssw0rd")
+auth_token = hasing(IP_USER + "Sup3rS3cur3P4ssw0rd")
 print(f"[MERCHANT] Auth Token: {auth_token}")
 log_event("auth_generated", {"user": IP_USER, "token": auth_token})
-
-# ===================== P2P NODE =====================
-bob = Net(passive_bind=IP, passive_port=BOB_PORT, interface=INTE, node_type="passive", debug=1)
-bob.start()
-bob.bootstrap()
-bob.advertise()
 
 def send_webhook(event_name, payload):
     try:
@@ -78,8 +72,6 @@ def bob_loop():
             send_webhook("merchant_event", {"peer_ip": con.addr[0]},)
             con.send_line("MERCHANT HELLO")
         time.sleep(1)
-
-threading.Thread(target=bob_loop, daemon=True).start()
 
 # ===================== TKINTER UI =====================
 #def on_click():
