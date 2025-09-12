@@ -59,7 +59,7 @@
   <h1>Dual-Sided Search</h1>
   <input type="text" id="search" placeholder="Search items..." onkeyup="filterList()">
   <div class="container">
-    <div class="left" id="itemList">
+    <div class="left" id="leftList">
       <div class="item">100 Table Clean Service 1 98.99</div>
       <div class="item">101 18V Cordless Drill 2 89.99</div>
       <div class="item">102 6-inch Wood Clamp 4 12.50</div>
@@ -89,7 +89,7 @@
     </div>
   
     <div class="separator"></div>
-    <div class="right" id="itemList">
+    <div class="right" id="rightList">
       <div class="item">100 Table Clean Service 1 98.99</div>
       <div class="item">101 18V Cordless Drill 2 89.99</div>
       <div class="item">102 6-inch Wood Clamp 4 12.50</div>
@@ -117,7 +117,8 @@
       <div class="item">124 Claw Hammer 1 17.99</div>
       <div class="item">125 Sawhorse Pair 1 45.00</div>
     </div>
-</div>  
+  </div>  
+
   <div class="bottom" id="fieldList">
       <div class="field"><strong>Field Name</strong> – <strong>Description</strong> – <strong>Format</strong> – <strong>Remarks</strong></div>
       <div class="field">LINENO – Line Number – I9999 – Line number as on DATASOURCE-A</div>
@@ -125,19 +126,10 @@
       <div class="field">HOUR – Service Duration – hhmm – Time taken to complete the service</div>
       <div class="field">QTY – Quantity – NNN – Quantity</div>
       <div class="field">VAL – Value – R99999.99 – Value</div>
-    </div>
-
   </div>
 
   <script>
     function filterList() {
       const input = document.getElementById('search').value.toLowerCase();
-      const items = document.getElementById('itemList').getElementsByClassName('item');
-      for (let i = 0; i < items.length; i++) {
-        const text = items[i].textContent.toLowerCase();
-        items[i].style.display = text.includes(input) ? '' : 'none';
-      }
-    }
-  </script>
-</body>
-</html>
+      const leftItems = document.getElementById('leftList').getElementsByClassName('item');
+      const rightItems = document.getElementBy
