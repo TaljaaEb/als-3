@@ -128,20 +128,19 @@
       <div class="field">VAL – Value – R99999.99 – Value</div>
   </div>
 
- <script>
-  function filterList() {
-    const input = document.getElementById('search').value.toLowerCase();
+  <script>
+    function filterList() {
+      const input = document.getElementById('search').value.toLowerCase();
 
-    // Get both lists as arrays
-    const leftItems = Array.from(document.querySelectorAll('#leftList .item'));
-    const rightItems = Array.from(document.querySelectorAll('#rightList .item'));
+      // Get both lists of items
+      const leftItems = document.querySelectorAll('#leftList .item');
+      const rightItems = document.querySelectorAll('#rightList .item');
 
-    // Combine them into one array and filter
-    [...leftItems, ...rightItems].forEach(item => {
-      const text = item.textContent.toLowerCase();
-      item.style.display = text.includes(input) ? '' : 'none';
-    });
-  }
-</script>
-
-
+      [...leftItems, ...rightItems].forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
